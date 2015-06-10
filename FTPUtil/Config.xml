@@ -1,0 +1,7 @@
+﻿<Settings>
+  <url>aaa</url>
+  <username>bbb</username>
+  <password>ccc</password>
+  <proxy>dddd</proxy>
+  <uploadInterval>2</uploadInterval>
+</Settings>
