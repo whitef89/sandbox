@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FTPUtil;
 
 namespace FTPConfig
 {
@@ -29,7 +30,13 @@ namespace FTPConfig
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(_config);
+            Dictionary<string, string> param = new Dictionary<string,string>();
+            param.Add("url", _config.FTPServerUrl);
+            param.Add("username", _config.UserName);
+            param.Add("password", _config.Password);
+            param.Add("proxy",_config.ProxyUrl);
+            param.Add("uploadInt",Convert.ToString(_config.UploadInterval));
+            Config.saveSettings(param);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using FTPUtil;
 
 
 namespace FTPConfig
@@ -12,11 +13,15 @@ namespace FTPConfig
     {
         #region dataMembers
 
-        private String serverURL;
-        private String userName;
-        private String password;
-        private String proxy;
+        private string serverURL;
+        private string userName;
+        private string password;
+        private string proxy;
+
+        private int uploadInterval;
         private Collection<string> pathToCopy;
+
+        Config _sourceConf = Config.Instance;
 
         #endregion
 
@@ -25,37 +30,44 @@ namespace FTPConfig
         #region constructors
         public ConfigModel()
         {
-
+            this.serverURL = _sourceConf.FTPUrl;
+            this.userName = _sourceConf.UserName;
+            this.password = _sourceConf.Password;
+            this.proxy = _sourceConf.Proxy;
+            this.uploadInterval = _sourceConf.UploadInterval;
+            //this.pathToCopy = path;
         }
 
-        public ConfigModel(String url, String user, String pass, String proxy, Collection<String> path )
+        public ConfigModel(String url, String user, String pass, String proxy, int intervall, Collection<String> path)
         {
             this.serverURL = url;
             this.userName = user;
             this.password = pass;
             this.proxy = proxy;
+            this.uploadInterval = intervall;
             this.pathToCopy = path;
-
 
         }
         #endregion
 
         #region publicProperties
-        public string FTPServerUrl {
-            get{ return this.serverURL;}
-            set {
+        public string FTPServerUrl
+        {
+            get { return this.serverURL; }
+            set
+            {
 
                 this.serverURL = value;
                 this.NotifyPropertyChanged("FTPServerUrl");
-                
-            } 
+
+            }
         }
 
         public string UserName
         {
             get { return this.userName; }
             set
-            {            
+            {
                 this.userName = value;
                 this.NotifyPropertyChanged("UserName");
             }
@@ -63,11 +75,11 @@ namespace FTPConfig
 
         public string Password
         {
-            get { return this.password ;}
+            get { return this.password; }
             set
             {
-                    this.password = value;
-                    this.NotifyPropertyChanged("Password");
+                this.password = value;
+                this.NotifyPropertyChanged("Password");
             }
         }
 
@@ -76,8 +88,18 @@ namespace FTPConfig
             get { return this.proxy; }
             set
             {
-                    this.proxy = value;
-                    this.NotifyPropertyChanged("ProxyUrl");
+                this.proxy = value;
+                this.NotifyPropertyChanged("ProxyUrl");
+            }
+        }
+
+        public int UploadInterval
+        {
+            get { return this.uploadInterval; }
+            set
+            {
+                this.uploadInterval = value;
+                this.NotifyPropertyChanged("UploadInterval");
             }
         }
 
@@ -100,7 +122,7 @@ namespace FTPConfig
 
         public override string ToString()
         {
-            return "Konfig: " + FTPServerUrl + " " + UserName + " " + Password + " " + ProxyUrl + " " + path;
+            return "Konfig: " + FTPServerUrl + " " + UserName + " " + Password + " " + ProxyUrl + " " + uploadInterval + " " + path;
         }
 
 
