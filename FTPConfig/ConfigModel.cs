@@ -17,9 +17,8 @@ namespace FTPConfig
         private string userName;
         private string password;
         private string proxy;
-
         private int uploadInterval;
-        private Collection<string> pathToCopy;
+        private Collection<string> dirPath;
 
         Config _sourceConf = Config.Instance;
 
@@ -35,7 +34,7 @@ namespace FTPConfig
             this.password = _sourceConf.Password;
             this.proxy = _sourceConf.Proxy;
             this.uploadInterval = _sourceConf.UploadInterval;
-            //this.pathToCopy = path;
+            this.dirPath = _sourceConf.Path;
         }
 
         public ConfigModel(String url, String user, String pass, String proxy, int intervall, Collection<String> path)
@@ -45,7 +44,7 @@ namespace FTPConfig
             this.password = pass;
             this.proxy = proxy;
             this.uploadInterval = intervall;
-            this.pathToCopy = path;
+            this.dirPath = path;
 
         }
         #endregion
@@ -103,12 +102,12 @@ namespace FTPConfig
             }
         }
 
-        public Collection<string> path
+        public Collection<string> DirectoryPath
         {
-            get { return this.pathToCopy; }
+            get { return this.dirPath; }
             set
             {
-                this.pathToCopy = value;
+                this.dirPath = value;
                 this.NotifyPropertyChanged("path");
             }
         }
@@ -122,7 +121,12 @@ namespace FTPConfig
 
         public override string ToString()
         {
-            return "Konfig: " + FTPServerUrl + " " + UserName + " " + Password + " " + ProxyUrl + " " + uploadInterval + " " + path;
+            StringBuilder sb = new StringBuilder();
+            foreach (string x in dirPath)
+            {
+                sb.Append(x).Append(" ");
+            }
+            return "Konfig: " + FTPServerUrl + " " + UserName + " " + Password + " " + ProxyUrl + " " + UploadInterval + " " + sb.ToString();
         }
 
 
